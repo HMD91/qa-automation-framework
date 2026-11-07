@@ -1,0 +1,23 @@
+[
+    {
+        "id": "connexion_reussie",
+        "username": "standard_user",
+        "password": "secret_sauce",
+        "resultat_attendu": "Products"
+    },
+
+    {
+        "id": "mot_de_passe_incorrect",
+        "username": "standard_user",
+        "password": "mauvais_mot_de_passe",
+        "resultat_attendu": "Username and password do not match"
+    },
+
+    {
+        "id": "utilisateur_bloque",
+        "username": "locked_out_user",
+        "password": "secret_sauce",
+        "resultat_attendu": "Sorry, this user has been locked out"
+    }
+]
+

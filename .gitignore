@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtual environment
+.venv/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+allure-results/
+allure-report/
+
+# IDE
+.vscode/
+
+# Environment variables
+.env
+.env.*
+
+# Logs
+*.log
+
+# Operating system
+.DS_Store
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+
+# Allure
+allure-results/
+allure-report/
+
+# Type checking and linting
+.mypy_cache/
+.ruff_cache/
+
+# Temporary files
+*.tmp
+*.bak
