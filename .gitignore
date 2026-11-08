@@ -42,3 +42,9 @@ allure-report/
 # Temporary files
 *.tmp
 *.bak
+
+
+reports/report.html
+reports/screenshots/
+reports/logs/
+reports/logs/
