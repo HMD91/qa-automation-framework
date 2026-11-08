@@ -6,6 +6,9 @@ from pathlib import Path
 import pytest
 import pytest_html
 
+from framework.ui.inventory_page import InventoryPage
+from framework.ui.login_page import LoginPage
+
 # Configuration du système de logs
 logging.basicConfig(
     level=logging.INFO,
@@ -139,3 +142,17 @@ def pytest_runtest_makereport(item, call):
 
 def pytest_runtest_call(item):
     logger.info("Exécution du test : %s", item.name)       
+
+
+@pytest.fixture()
+def utilisateur_connecte(page):
+    login_page = LoginPage(page)
+    
+    login_page.ouvrir()
+    login_page.se_connecter(
+        "standard_user", "secret_sauce"
+        )
+    
+    inventory_page = InventoryPage(page)
+    inventory_page.verifier_page_affichee()
+    return inventory_page
