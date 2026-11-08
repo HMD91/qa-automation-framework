@@ -5,7 +5,12 @@ class InventoryPage:
 
     def __init__(self, page):
         self.page = page
-
+        self.bouton_panier = page.locator(".shopping_cart_link")
+        
+    def ouvrir_panier(self):
+        self.bouton_panier.click()
+    
+    
     def verifier_page_affichee(self):
         expect(
             self.page.get_by_text("Products")
@@ -88,3 +93,10 @@ class InventoryPage:
         expect(
             self.page.locator(".shopping_cart_badge")
         ).to_have_count(0)
+        
+        
+    def recuperer_prix_produit(self, nom_produit):
+        produit = self.page.locator(".inventory_item").filter(
+            has_text=nom_produit
+        )
+        return produit.locator(".inventory_item_price").inner_text()
