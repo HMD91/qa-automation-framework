@@ -9,6 +9,9 @@ import pytest_html
 from framework.ui.inventory_page import InventoryPage
 from framework.ui.login_page import LoginPage
 
+Path("reports/logs").mkdir(parents=True, exist_ok=True)
+Path("reports/screenshots").mkdir(parents=True, exist_ok=True)
+
 # Configuration du système de logs
 logging.basicConfig(
     level=logging.INFO,
