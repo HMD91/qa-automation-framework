@@ -203,3 +203,13 @@ The current test suite includes 15 automated UI tests covering the following sce
 - Verify order confirmation
 
 All UI tests are currently executed using Chromium.
+
+
+
+## Screenshots
+
+### Inventory Page
+![Inventory Page](docs/images/inventory.png)
+
+### Pytest HTML Report
+![Pytest HTML Report](docs/images/report.png)
