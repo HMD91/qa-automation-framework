@@ -6,6 +6,8 @@ from pathlib import Path
 import pytest
 import pytest_html
 
+from framework.api.client import APIClient
+from framework.config import API_BASE_URL
 from framework.ui.inventory_page import InventoryPage
 from framework.ui.login_page import LoginPage
 
@@ -159,3 +161,8 @@ def utilisateur_connecte(page):
     inventory_page = InventoryPage(page)
     inventory_page.verifier_page_affichee()
     return inventory_page
+
+
+@pytest.fixture()
+def api_client():
+    return APIClient(API_BASE_URL)
