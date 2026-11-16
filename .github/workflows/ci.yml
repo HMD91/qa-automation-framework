@@ -36,6 +36,10 @@ jobs:
     name: Automated Tests - Pytest
     runs-on: ubuntu-24.04
 
+    env:
+      API_BASE_URL: https://jsonplaceholder.typicode.com
+
+      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
