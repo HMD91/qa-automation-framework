@@ -5,24 +5,20 @@
 ![Python](https://img.shields.io/badge/Python-3.12+-blue)
 ![Playwright](https://img.shields.io/badge/Playwright-Automation-green)
 ![Pytest](https://img.shields.io/badge/Pytest-Testing-orange)
+![Requests](https://img.shields.io/badge/Requests-API%20Testing-brightgreen)
 
-A professional UI test automation framework built with Python, Pytest and Playwright.
-
-
+A professional test automation framework built with Python, Pytest, Playwright and Requests, covering both UI and API testing.
 
 ## Overview
 
-This project is a UI test automation framework designed to validate the main user journeys of a web application.
+This project is a test automation framework designed to validate both web application user journeys and REST API endpoints.
 
-It uses the Page Object Model (POM) design pattern to separate test logic from page interactions.
+It combines two complementary automation approaches:
 
-The framework currently automates:
-- User authentication
-- Product selection and cart management
-- Checkout process
-- Order confirmation
+- **UI Testing:** Browser automation using Playwright and Pytest, following the Page Object Model (POM) design pattern.
+- **API Testing:** REST API validation using Python Requests and Pytest, with a reusable API client and automated checks for successful responses and error handling.
 
-
+The framework aims to provide reliable, maintainable and reusable automated tests across different application layers.
 
 ## Tech Stack
 
@@ -31,55 +27,72 @@ The framework currently automates:
 - **Pytest** — Test framework and test execution
 - **pytest-playwright** — Playwright integration with Pytest
 - **pytest-html** — HTML test reporting
+- **Requests** — HTTP requests and REST API testing
+- **python-dotenv** — Environment variable management
 - **Ruff** — Code quality and linting
 - **Git & GitHub** — Version control and source code hosting
 - **GitHub Actions** — Continuous Integration (CI)
-
-
 
 ## Project Structure
 
 ```text
 qa-automation-framework/
 │
-├── config/                  # Project configuration
+├── config/
 │
 ├── framework/
-│   ├── ui/                  # Page Object Model classes
-│   ├── api/                 # API automation module (planned)
-│   └── utils/               # Shared utilities
+│   ├── api/
+│   │   ├── __init__.py
+│   │   └── client.py
+│   │
+│   ├── ui/
+│   │   ├── cart_page.py
+│   │   ├── checkout_complete_page.py
+│   │   ├── checkout_overview_page.py
+│   │   ├── checkout_page.py
+│   │   ├── inventory_page.py
+│   │   └── login_page.py
+│   │
+│   ├── utils/
+│   └── config.py
 │
 ├── tests/
-│   ├── conftest.py          # Shared fixtures and Pytest hooks
-│   └── ui/
-│       ├── test_login.py    # Authentication tests
-│       └── test_cart.py     # Cart and checkout tests
+│   ├── api/
+│   │   ├── test_api_client.py
+│   │   ├── test_api_errors.py
+│   │   └── test_post.py
+│   │
+│   ├── ui/
+│   │   ├── test_cart.py
+│   │   └── test_login.py
+│   │
+│   └── conftest.py
 │
 ├── test_data/
 │   └── users/
-│       └── login_cases.json # Test data
+│       └── login_cases.json
 │
-├── docs/                    # Project documentation
+├── docs/
+│   └── images/
+│       ├── inventory.png
+│       └── report.png
 │
+├── .env.example
+├── .gitignore
 ├── .github/
 │   └── workflows/
-│       └── ci.yml           # GitHub Actions CI pipeline
+│       └── ci.yml
 │
-├── reports/                 # Test reports (generated)
-├── pyproject.toml           # Project and tool configuration
+├── pyproject.toml
 └── README.md
 ```
-
-
-
-
 
 ## Installation
 
 ### 1. Clone the repository
 
 ```bash
-git clone git@github.com:HMD91/qa-automation-framework.git
+git clone https://github.com/HMD91/qa-automation-framework.git
 cd qa-automation-framework
 ```
 
@@ -97,15 +110,27 @@ python -m pip install --upgrade pip
 pip install -e ".[dev]"
 ```
 
-### 4. Install Playwright browser
+### 4. Configure environment variables
+
+Create a local `.env` file from the example:
+
+```bash
+cp .env.example .env
+```
+
+The API base URL is configured as follows:
+
+```env
+API_BASE_URL=https://jsonplaceholder.typicode.com
+```
+
+The `.env` file is excluded from version control. The `.env.example` file provides the configuration template required to run the API tests.
+
+### 5. Install Playwright browser
 
 ```bash
 playwright install --with-deps chromium
 ```
-
-
-
-
 
 ## Running Tests
 
@@ -121,10 +146,20 @@ pytest
 pytest tests/ui/
 ```
 
+### Run API tests only
+
+```bash
+pytest tests/api/
+```
+
 ### Run a specific test file
 
 ```bash
 pytest tests/ui/test_login.py
+```
+
+```bash
+pytest tests/api/test_api_client.py
 ```
 
 ### Run tests with detailed output
@@ -132,6 +167,54 @@ pytest tests/ui/test_login.py
 ```bash
 pytest -v
 ```
+
+## Automated Test Scenarios
+
+The current test suite includes **44 automated tests**, covering UI and API functionality.
+
+### UI Testing — 15 tests
+
+UI tests validate the main user journeys of the web application using Playwright and Chromium.
+
+**Authentication**
+- Successful login
+- Login with an incorrect password
+- Login with a locked user account
+
+**Shopping Cart**
+- Select an available product
+- Add a product to the cart
+- Verify cart counter increment
+- Remove a product from the cart
+- Verify cart counter after removal
+- Navigate to and from the cart
+
+**Checkout**
+- Start the checkout process
+- Fill in customer information
+- Verify the order summary
+- Complete an order
+- Verify order confirmation
+
+### API Testing — 29 tests
+
+API tests validate REST API operations using Python Requests and Pytest.
+
+**HTTP Methods**
+- GET — Retrieve resources
+- POST — Create resources
+- PUT — Update resources
+- PATCH — Partially update resources
+- DELETE — Delete resources
+
+**Error Handling and Reliability**
+- Validate HTTP error responses
+- Handle connection errors
+- Handle request timeouts
+- Verify server error handling
+- Validate request execution and expected arguments
+
+The API tests use a reusable API client to centralize HTTP communication and response handling.
 
 ## Test Reports
 
@@ -141,30 +224,34 @@ After test execution, an HTML report is automatically generated at:
 reports/report.html
 ```
 
-The report is self-contained and can be opened directly in a web browser.
+The report provides a detailed overview of test execution results and can be opened directly in a web browser.
 
+A screenshot of the report is available in:
 
-
-
-
-
+```text
+docs/images/report.png
+```
 
 ## Continuous Integration (CI)
 
 The project uses **GitHub Actions** to automatically validate code quality and execute automated tests.
 
 The CI pipeline is triggered on:
+
 - Push events to the `main` branch
 - Pull requests targeting the `main` branch
 
 ### Pipeline Jobs
 
 **1. Code Quality - Ruff**
+
 - Install project dependencies
 - Run Ruff to check code quality
 
 **2. Automated Tests - Pytest**
+
 - Install project dependencies
+- Configure the API base URL
 - Install Chromium and its system dependencies
 - Execute the automated test suite
 - Generate an HTML test report
@@ -172,44 +259,44 @@ The CI pipeline is triggered on:
 
 The HTML report is available for download for **7 days** after each workflow execution.
 
+### Latest Test Results
 
+The latest successful CI execution validated:
 
+| Test Category | Tests |
+|---|---:|
+| UI Tests | 15 |
+| API Tests | 29 |
+| **Total** | **44** |
 
-
-
-
-## Automated Test Scenarios
-
-The current test suite includes 15 automated UI tests covering the following scenarios:
-
-### Authentication
-- Successful login
-- Login with an incorrect password
-- Login with a locked user account
-
-### Shopping Cart
-- Select an available product
-- Add a product to the cart
-- Verify cart counter increment
-- Remove a product from the cart
-- Verify cart counter after removal
-- Navigate to and from the cart
-
-### Checkout
-- Start the checkout process
-- Fill in customer information
-- Verify the order summary
-- Complete an order
-- Verify order confirmation
-
-All UI tests are currently executed using Chromium.
-
-
+Both the Ruff code quality checks and the Pytest test suite passed successfully.
 
 ## Screenshots
 
 ### Inventory Page
+
 ![Inventory Page](docs/images/inventory.png)
 
 ### Pytest HTML Report
+
 ![Pytest HTML Report](docs/images/report.png)
+
+## Project Goals
+
+This project demonstrates practical skills in:
+
+- UI test automation with Playwright
+- REST API testing with Python Requests
+- Test automation architecture and maintainability
+- Page Object Model (POM)
+- Pytest fixtures and parametrization
+- Error handling and negative testing
+- Environment configuration
+- Code quality with Ruff
+- Continuous Integration with GitHub Actions
+
+---
+
+**Author:** Ahmed Beggache
+
+**Repository:** [HMD91/qa-automation-framework](https://github.com/HMD91/qa-automation-framework)
