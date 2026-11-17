@@ -6,6 +6,7 @@
 ![Playwright](https://img.shields.io/badge/Playwright-Automation-green)
 ![Pytest](https://img.shields.io/badge/Pytest-Testing-orange)
 ![Requests](https://img.shields.io/badge/Requests-API%20Testing-brightgreen)
+![Allure](https://img.shields.io/badge/Allure-Reporting-ff6c37?logo=allure)
 
 A professional test automation framework built with Python, Pytest, Playwright and Requests, covering both UI and API testing.
 
@@ -27,6 +28,7 @@ The framework aims to provide reliable, maintainable and reusable automated test
 - **Pytest** — Test framework and test execution
 - **pytest-playwright** — Playwright integration with Pytest
 - **pytest-html** — HTML test reporting
+- **Allure** — Detailed test reporting and visualization
 - **Requests** — HTTP requests and REST API testing
 - **python-dotenv** — Environment variable management
 - **Ruff** — Code quality and linting
@@ -225,6 +227,16 @@ reports/report.html
 ```
 
 The report provides a detailed overview of test execution results and can be opened directly in a web browser.
+### Allure Reports
+
+Allure generates detailed test reports with test descriptions, execution steps, features and results.
+
+To generate and open the report locally:
+
+```bash
+npx allure generate reports/allure-results --clean
+npx allure open
+
 
 A screenshot of the report is available in:
 
@@ -254,8 +266,8 @@ The CI pipeline is triggered on:
 - Configure the API base URL
 - Install Chromium and its system dependencies
 - Execute the automated test suite
-- Generate an HTML test report
-- Upload the report as a GitHub Actions artifact
+- Generate Pytest HTML and Allure reports
+- Upload both reports as GitHub Actions artifacts
 
 The HTML report is available for download for **7 days** after each workflow execution.
 
