@@ -49,3 +49,6 @@ reports/report.html
 reports/screenshots/
 reports/logs/
 reports/logs/
+
+
+node_modules/

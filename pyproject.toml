@@ -19,6 +19,7 @@ dev = [
     "pytest",
     "pytest-playwright",
     "pytest-html",
+    "allure-pytest",
     "ruff",
 ]
 
@@ -26,7 +27,11 @@ dev = [
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_functions = ["test_*"]
-addopts = "-v --strict-markers --html=reports/report.html --self-contained-html"
+addopts = "-v --strict-markers --html=reports/report.html --self-contained-html --alluredir=reports/allure-results --clean-alluredir"
+markers = [
+    "api: tests de validation des API",
+    "ui: tests de validation de l'interface utilisateur",
+]
 
 
 [tool.setuptools.packages.find]

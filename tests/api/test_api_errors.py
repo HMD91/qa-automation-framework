@@ -1,12 +1,20 @@
 from unittest.mock import patch
 
+import allure
 import pytest
 import requests
 
 from framework.api.client import APIClient
 from framework.config import API_BASE_URL
 
+pytestmark = pytest.mark.api
 
+
+
+@allure.epic("QA Automation Framework")
+@allure.feature("API Testing")
+@allure.story("Network Errors")
+@allure.title("Gérer les erreurs réseau sur les méthodes HTTP")
 @pytest.mark.parametrize(
     "methode, endpoint, data, exception",
     [
@@ -52,6 +60,13 @@ from framework.config import API_BASE_URL
         ("DELETE", "/posts/1", None, requests.exceptions.Timeout),
     ],
 )
+
+
+@allure.epic("QA Automation Framework")
+@allure.feature("API Testing")
+@allure.story("Network Errors")
+@allure.title("Gérer les erreurs réseau")
+
 def test_network_error(
     api_client, methode, endpoint, data, exception
 ):  # test_network_error = test_connection_error et test_network_error
@@ -77,6 +92,11 @@ def test_network_error(
             )
 
 
+@allure.epic("QA Automation Framework")
+@allure.feature("API Testing")
+@allure.story("Timeout")
+@allure.title("Appliquer un délai d'attente personnalisé")
+
 def test_get_custom_timeout():
     client = APIClient(API_BASE_URL, timeout=20)
 
@@ -87,6 +107,13 @@ def test_get_custom_timeout():
             client.get("/posts/1")
 
         mock_get.assert_called_once_with(f"{client.base_url}/posts/1", timeout=20)
+
+
+
+@allure.epic("QA Automation Framework")
+@allure.feature("API Testing")
+@allure.story("Server Errors")
+@allure.title("Gérer une erreur serveur GET")
 
 
 def test_get_server_error(api_client):
@@ -107,6 +134,12 @@ def test_get_server_error(api_client):
             api_client.get("/posts/1")
 
 
+@allure.epic("QA Automation Framework")
+@allure.feature("API Testing")
+@allure.story("Server Errors")
+@allure.title("Gérer une erreur serveur POST")
+
+
 def test_post_server_error(api_client):
     with patch("requests.post") as mock_post:
         response = requests.Response()
@@ -118,6 +151,12 @@ def test_post_server_error(api_client):
         with pytest.raises(requests.exceptions.HTTPError):
             api_client.post("/posts", post_data)
 
+
+
+@allure.epic("QA Automation Framework")
+@allure.feature("API Testing")
+@allure.story("Server Errors")
+@allure.title("Gérer une erreur serveur PUT")
 
 def test_put_server_error(api_client):
     with patch("requests.put") as mock_put:
@@ -136,6 +175,13 @@ def test_put_server_error(api_client):
             api_client.put("/posts/1", put_data)
 
 
+
+@allure.epic("QA Automation Framework")
+@allure.feature("API Testing")
+@allure.story("Server Errors")
+@allure.title("Gérer une erreur serveur PATCH")
+
+
 def test_patch_server_error(api_client):
     with patch("requests.patch") as mock_patch:
         response = requests.Response()
@@ -148,6 +194,11 @@ def test_patch_server_error(api_client):
             api_client.patch("/posts/1", patch_data)
 
 
+@allure.epic("QA Automation Framework")
+@allure.feature("API Testing")
+@allure.story("Server Errors")
+@allure.title("Gérer une erreur serveur DELETE")
+
 def test_delete_server_error(api_client):
     with patch("requests.delete") as mock_delete:
         response = requests.Response()
@@ -157,6 +208,11 @@ def test_delete_server_error(api_client):
         with pytest.raises(requests.exceptions.HTTPError):
             api_client.delete("/posts/1")
 
+
+@allure.epic("QA Automation Framework")
+@allure.feature("API Testing")
+@allure.story("HTTP Requests")
+@allure.title("Vérifier les données envoyées avec GET")
 
 def test_get_sends_correct_data(api_client):
     with patch("requests.get") as mock_get:
@@ -169,6 +225,11 @@ def test_get_sends_correct_data(api_client):
         mock_get.assert_called_once_with(f"{api_client.base_url}/posts/1", timeout=10)
 
 
+@allure.epic("QA Automation Framework")
+@allure.feature("API Testing")
+@allure.story("HTTP Requests")
+@allure.title("Vérifier les données envoyées avec POST")
+
 def test_post_sends_correct_data(api_client):
     with patch("requests.post") as mock_post:
         response = requests.Response()
@@ -180,7 +241,14 @@ def test_post_sends_correct_data(api_client):
         mock_post.assert_called_once_with(
             f"{api_client.base_url}/posts", json=post_data, timeout=10
         )
-
+        
+        
+        
+        
+@allure.epic("QA Automation Framework")
+@allure.feature("API Testing")
+@allure.story("HTTP Requests")
+@allure.title("Vérifier les données envoyées avec PUT")
 
 def test_put_sends_correct_data(api_client):
     with patch("requests.put") as mock_put:
@@ -199,7 +267,13 @@ def test_put_sends_correct_data(api_client):
         mock_put.assert_called_once_with(
             f"{api_client.base_url}/posts/1", json=put_data, timeout=10
         )
-
+        
+        
+        
+@allure.epic("QA Automation Framework")
+@allure.feature("API Testing")
+@allure.story("HTTP Requests")
+@allure.title("Vérifier les données envoyées avec PATCH")
 
 def test_patch_sends_correct_data(api_client):
     with patch("requests.patch") as mock_patch:
@@ -213,7 +287,12 @@ def test_patch_sends_correct_data(api_client):
         mock_patch.assert_called_once_with(
             f"{api_client.base_url}/posts/1", json=patch_data, timeout=10
         )
-
+        
+        
+@allure.epic("QA Automation Framework")
+@allure.feature("API Testing")
+@allure.story("HTTP Requests")
+@allure.title("Vérifier les données envoyées avec DELETE")
 
 def test_delete_data(api_client):
     with patch("requests.delete") as mock_delete:
